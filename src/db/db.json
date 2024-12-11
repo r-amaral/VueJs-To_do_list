@@ -1,0 +1,16 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "fullName": "Ruan Vinicius Amaral de Oliveira",
+      "email": "ruan@gmail.com",
+      "password": "Ru223344!"
+    },
+    {
+      "id": 2,
+      "fullName": "John Lennon",
+      "email": "john@gmail.com",
+      "password": "Jo223344!"
+    }
+  ]
+}

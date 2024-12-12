@@ -5,6 +5,7 @@ import Button from "../components/Button/index.vue";
 import FieldText from "../components/FieldText/index.vue";
 import { useRouter } from "vue-router";
 import { UserTypes, UserLoginTypes } from "../types";
+import { useUserStore } from "../stores/UserStore.ts";
 
 const user = reactive({
   email: "",
@@ -12,13 +13,14 @@ const user = reactive({
 } as UserLoginTypes);
 
 const router = useRouter();
+const userStore = useUserStore();
 
 const onLogin = async () => {
   try {
     const response = await fetch("http://localhost:3001/users");
     const users = await response.json();
 
-    const foundUser = users.some((userList: UserTypes) => {
+    const foundUser = users.find((userList: UserTypes) => {
       if (
         userList.email === user.email &&
         userList.password === user.password
@@ -27,6 +29,7 @@ const onLogin = async () => {
     });
 
     if (foundUser) {
+      userStore.setUser(foundUser);
       router.push("/dashboard");
       localStorage.setItem("logged", JSON.stringify(foundUser));
     }
@@ -75,7 +78,7 @@ const onLogin = async () => {
               >Click here</router-link
             ></span
           >
-          <Button text="Login" />
+          <Button>Login</Button>
         </form>
       </div>
     </section>

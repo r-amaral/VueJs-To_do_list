@@ -40,7 +40,8 @@ const validateFields = () => {
   error.fullName = !regName.test(user.fullName);
   error.email = !regEmail.test(user.email);
   error.password = !regStrongPassword.test(user.password);
-  error.confirmPassword = user.confirmPassword !== user.password;
+  error.confirmPassword =
+    user.confirmPassword !== user.password || !user.confirmPassword;
 
   if (Object.values(error).some((attribute: boolean) => attribute)) {
     return (errorText.value = errorType.incorrectCredentials);
@@ -83,6 +84,7 @@ const onRegister = async () => {
         fullName: user.fullName,
         email: user.email,
         password: user.password,
+        tasks: [],
       }),
     });
 
@@ -152,7 +154,7 @@ const onRegister = async () => {
           <span v-if="!!errorText" class="text-black font-medium">{{
             errorText
           }}</span>
-          <Button text="Register" />
+          <Button>Register</Button>
         </form>
       </div>
     </section>

@@ -10,7 +10,8 @@ defineProps<FieldTextProps>();
     <label class="text-black font-medium" :for="id">{{
       label
     }}</label>
-    <input
+    <component
+      :is="isTextArea ? 'textarea' : 'input'"
       class="rounded-lg p-4 border border-black w-full shadow-lg shadow-blue-500/25 bg-transparent text-black placeholder:text-gray-500 max-w-[375px]"
       :id="id"
       :type="type"

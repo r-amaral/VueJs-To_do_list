@@ -1,11 +1,8 @@
 <script setup lang="ts">
-defineProps<{
-  type: string;
-  placeholder: string;
-  modelValue: string | number;
-  label: string;
-  id: string;
-}>();
+import { FieldTextProps } from "../../types";
+import { defineProps } from "vue";
+
+defineProps<FieldTextProps>();
 </script>
 
 <template>
@@ -19,6 +16,9 @@ defineProps<{
       :type="type"
       :placeholder="placeholder"
       :value="modelValue"
+      :class="{
+        'border-red-800 shadow-lg shadow-red-500/25': error,
+      }"
       @input="
         $emit(
           'update:modelValue',

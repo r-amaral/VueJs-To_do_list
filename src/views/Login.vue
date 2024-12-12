@@ -3,14 +3,36 @@ import { reactive } from "vue";
 import Logo from "../components/Logo/index.vue";
 import Button from "../components/Button/index.vue";
 import FieldText from "../components/FieldText/index.vue";
+import { useRouter } from "vue-router";
+import { UserTypes, UserLoginTypes } from "../types";
 
 const user = reactive({
   email: "",
   password: "",
-});
+} as UserLoginTypes);
 
-const login = () => {
-  console.log(user.email, user.password);
+const router = useRouter();
+
+const onLogin = async () => {
+  try {
+    const response = await fetch("http://localhost:3001/users");
+    const users = await response.json();
+
+    const foundUser = users.some((userList: UserTypes) => {
+      if (
+        userList.email === user.email &&
+        userList.password === user.password
+      )
+        return userList;
+    });
+
+    if (foundUser) {
+      router.push("/dashboard");
+      localStorage.setItem("logged", JSON.stringify(foundUser));
+    }
+  } catch (error) {
+    throw Error(`Error logging in: ${error}`);
+  }
 };
 </script>
 
@@ -28,7 +50,7 @@ const login = () => {
         </div>
         <form
           class="flex justify-center items-center flex-col w-full gap-5"
-          @submit.prevent="login"
+          @submit.prevent="onLogin"
         >
           <FieldText
             id="email"
@@ -57,10 +79,6 @@ const login = () => {
         </form>
       </div>
     </section>
-    <section
-      class="flex shadow-xl shadow-blue-800/100 items-center justify-center h-[100%] p-[100px] rounded-tl-[50px] rounded-bl-[50px] bg-[linear-gradient(to_right,_rgb(23,_45,_171),_rgb(31,_35,_66))]"
-    >
-      <Logo />
-    </section>
+    <Logo />
   </main>
 </template>

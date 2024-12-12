@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { reactive } from "vue";
-import Logo from "../components/Logo/index.vue";
-import Button from "../components/Button/index.vue";
-import FieldText from "../components/FieldText/index.vue";
+import Logo from "../../components/Logo/index.vue";
+import Button from "../../components/Button/index.vue";
+import FieldText from "../../components/FieldText/index.vue";
 import { useRouter } from "vue-router";
-import { UserTypes, UserLoginTypes } from "../types";
-import { useUserStore } from "../stores/UserStore.ts";
+import { UserTypes, UserLoginTypes } from "../../types/index.ts";
+import { useUserStore } from "../../stores/UserStore.ts";
 
 const user = reactive({
   email: "",

@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { reactive, ref } from "vue";
-import Logo from "../components/Logo/index.vue";
-import Button from "../components/Button/index.vue";
-import FieldText from "../components/FieldText/index.vue";
-import { UserTypes, UserErrorTypes } from "../types";
+import Logo from "../../components/Logo/index.vue";
+import Button from "../../components/Button/index.vue";
+import FieldText from "../../components/FieldText/index.vue";
+import { UserTypes, UserErrorTypes } from "../../types";
 import { useRouter } from "vue-router";
 
 const router = useRouter();

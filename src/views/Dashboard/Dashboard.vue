@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import Header from "../components/Header/index.vue";
-import { useUserStore } from "../stores/UserStore.ts";
-import Card from "../components/Card/index.vue";
-import Button from "../components/Button/index.vue";
-import PriorityCard from "../components/PriorityCard/index.vue";
-import Modal from "../components/Modal/index.vue";
-import FieldText from "../components/FieldText/index.vue";
+import Header from "../../components/Header/index.vue";
+import { useUserStore } from "../../stores/UserStore.ts";
+import Card from "../../components/Card/index.vue";
+import Button from "../../components/Button/index.vue";
+import PriorityCard from "../../components/PriorityCard/index.vue";
+import Modal from "../../components/Modal/index.vue";
+import FieldText from "../../components/FieldText/index.vue";
 import { reactive, ref } from "vue";
-import { CategoriesTypes, PriorityTypes } from "../types";
+import { CategoriesTypes, PriorityTypes } from "../../types/index.ts";
 
 const open = ref(false);
 const userStore = useUserStore();
@@ -30,7 +30,7 @@ const openModal = (state: boolean) => (open.value = state);
     <section class="w-[70%]">
       <div class="w-full mb-[10px] flex justify-between">
         <h3>Tasks</h3>
-        <Button class="w-[130px] p-2" @click="openModal(true)">
+        <Button class="w-[135px] p-[8px]" @click="openModal(true)">
           New task</Button
         >
       </div>

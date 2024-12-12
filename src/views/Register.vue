@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 import Logo from "../components/Logo/index.vue";
 import Button from "../components/Button/index.vue";
 import FieldText from "../components/FieldText/index.vue";
@@ -11,8 +11,42 @@ const user = reactive({
   confirmPassword: "",
 });
 
-const login = () => {
-  console.log(user.email, user.password);
+const error = reactive({
+  fullName: false,
+  email: false,
+  password: false,
+  confirmPassword: false,
+});
+
+const errorText = ref("");
+
+const errorType = {
+  incorrectCredentials:
+    "Sorry, invalid credentials. Please fix and try again!",
+  existingEmail:
+    "Sorry, that email has already been registered. Try another email!",
+};
+
+const validateFields = () => {
+  const regEmail = /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/;
+  const regName = /^([A-Za-z\u00C0-\u017F´]\s?){3,40}$/g;
+  const regStrongPassword =
+    /^(?=.*[A-Z])(?=.*[\W|_])(?=.*[0-9])(?=.*[a-z]).{6,}$/;
+
+  error.fullName = !regName.test(user.fullName);
+  error.email = !regEmail.test(user.email);
+  error.password = !regStrongPassword.test(user.password);
+  error.confirmPassword = user.confirmPassword !== user.password;
+
+  if (Object.values(error).some((attribute: boolean) => attribute)) {
+    return (errorText.value = errorType.incorrectCredentials);
+  }
+
+  return (errorText.value = "");
+};
+
+const onRegister = () => {
+  if (validateFields() === errorType.incorrectCredentials) return;
 };
 </script>
 
@@ -28,7 +62,7 @@ const login = () => {
 
         <form
           class="flex justify-center items-center flex-col w-full gap-5"
-          @submit.prevent="login"
+          @submit.prevent="onRegister"
         >
           <FieldText
             id="FullName"
@@ -36,6 +70,7 @@ const login = () => {
             placeholder="Type your name"
             label="Full Name"
             v-model="user.fullName"
+            :error="error.fullName"
           />
           <FieldText
             id="email"
@@ -43,6 +78,7 @@ const login = () => {
             placeholder="Type your email"
             label="Email"
             v-model="user.email"
+            :error="error.email"
           />
           <FieldText
             id="password"
@@ -50,6 +86,7 @@ const login = () => {
             placeholder="Type your password"
             label="Password"
             v-model="user.password"
+            :error="error.password"
           />
           <FieldText
             id="confirmPassword"
@@ -57,6 +94,7 @@ const login = () => {
             placeholder="Type your password again"
             label="Confirm Password"
             v-model="user.confirmPassword"
+            :error="error.confirmPassword"
           />
           <span>
             If you have a registration,
@@ -64,14 +102,13 @@ const login = () => {
               >Click here</router-link
             ></span
           >
+          <span v-if="!!errorText" class="text-black font-medium">{{
+            errorText
+          }}</span>
           <Button text="Register" />
         </form>
       </div>
     </section>
-    <section
-      class="flex shadow-xl shadow-blue-800/100 items-center justify-center h-[100%] p-[100px] rounded-tl-[50px] rounded-bl-[50px] bg-[linear-gradient(to_right,_rgb(23,_45,_171),_rgb(31,_35,_66))]"
-    >
-      <Logo />
-    </section>
+    <Logo />
   </main>
 </template>

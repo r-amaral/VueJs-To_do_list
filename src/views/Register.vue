@@ -3,20 +3,24 @@ import { reactive, ref } from "vue";
 import Logo from "../components/Logo/index.vue";
 import Button from "../components/Button/index.vue";
 import FieldText from "../components/FieldText/index.vue";
+import { UserTypes, UserErrorTypes } from "../types";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 const user = reactive({
   fullName: "",
   email: "",
   password: "",
   confirmPassword: "",
-});
+} as UserTypes);
 
 const error = reactive({
   fullName: false,
   email: false,
   password: false,
   confirmPassword: false,
-});
+} as UserErrorTypes);
 
 const errorText = ref("");
 
@@ -45,8 +49,51 @@ const validateFields = () => {
   return (errorText.value = "");
 };
 
-const onRegister = () => {
+const validateExistingEmail = async () => {
+  return fetch("http://localhost:3001/users")
+    .then((response) => response.json())
+    .then((data) => {
+      const existingEmail = data.find(
+        (userList: UserTypes) => userList.email === user.email
+      );
+      if (existingEmail) {
+        error.email = true;
+        errorText.value = errorType.existingEmail;
+      }
+    })
+    .catch((error) => {
+      throw new Error(`Error validating email: ${error}`);
+    });
+};
+
+const onRegister = async () => {
   if (validateFields() === errorType.incorrectCredentials) return;
+
+  await validateExistingEmail();
+
+  if (errorText.value === errorType.existingEmail) return;
+
+  try {
+    const response = await fetch("http://localhost:3001/users", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        fullName: user.fullName,
+        email: user.email,
+        password: user.password,
+      }),
+    });
+
+    if (response.ok) {
+      router.push("/");
+    } else {
+      console.error("Error registering user.");
+    }
+  } catch (error) {
+    console.error("Error registering user:", error);
+  }
 };
 </script>
 

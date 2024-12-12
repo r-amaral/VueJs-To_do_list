@@ -8,9 +8,9 @@ const emit = defineEmits(["click"]);
 
 <template>
   <button
-    class="w-full p-4 max-w-[375px] bg-blue-800 text-white rounded-lg shadow-md shadow-blue-800/50"
+    class="w-full p-4 max-w-[375px] bg-blue-800 text-white rounded-lg shadow-md shadow-blue-800/50 transition-all duration-300 ease-in-out hover:text-blue-800 border border-blue-800 hover:bg-white"
     @click="$emit('click')"
   >
-    {{ text }}
+    <slot></slot>
   </button>
 </template>

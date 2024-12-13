@@ -7,6 +7,7 @@ import { useUserStore } from '../../../stores/UserStore.ts';
 import FieldText from '../../../components/FieldText/index.vue';
 import { formatDate, validateDate } from '../../../utils/date.ts';
 import PriorityCard from '../../../components/PriorityCard/index.vue';
+import TrashIcon from '../../../assets/trash.png';
 import { CategoriesTypes, PriorityTypes, CardProps, UserTypes } from '../../../types/index.ts';
 
 const props = defineProps<{
@@ -14,6 +15,8 @@ const props = defineProps<{
    openModal(e: boolean): void;
    selectedTask: CardProps | null;
 }>();
+
+const openDeleteModal = ref(false);
 
 const emit = defineEmits(['close']);
 
@@ -93,12 +96,16 @@ const getBodyReq = (asyncUser: UserTypes) => {
 };
 
 const onSaveTask = async () => {
-   if (validateFields() === messageError) return;
+   if (!openDeleteModal.value && validateFields() === messageError) return;
 
    if (!userStore.user.id) return;
 
    const asyncUser = await getUserById(userStore.user.id);
-   const taskBody = getBodyReq(asyncUser);
+
+   const taskBody = openDeleteModal.value
+      ? asyncUser.tasks.filter((task: CardProps) => task.id !== props.selectedTask?.id)
+      : getBodyReq(asyncUser);
+
    try {
       const response = await fetch(`http://localhost:3001/users/${userStore.user.id}`, {
          method: 'PUT',
@@ -113,6 +120,7 @@ const onSaveTask = async () => {
 
       const data = await response.json();
       userStore.setUser(data);
+      openDeleteModal.value = false;
       clearState();
       emit('close');
    } catch (error) {
@@ -124,7 +132,9 @@ const onSaveTask = async () => {
 <template>
    <Modal :open="open" @close="emit('close')">
       <div class="flex flex-col p-[30px] pl-[100px] pr-[100px]">
-         <h3 class="font-bold text-[32px] text-center mb-[20px]">New Task</h3>
+         <h3 class="font-bold text-[32px] text-center mb-[20px]">
+            {{ selectedTask ? 'Edit' : 'New Task' }}
+         </h3>
          <div class="flex flex-col grid-cols-2 gap-[10px]">
             <FieldText
                id="title"
@@ -171,6 +181,15 @@ const onSaveTask = async () => {
                />
             </div>
 
+            <button
+               v-if="selectedTask"
+               @click="openDeleteModal = true"
+               class="flex items-center justify-center gap-2 mt-[20px] border rounded-md p-[10px] border-black w-full"
+            >
+               <img class="w-[30px]" :src="TrashIcon" alt="" />
+               <span>Delete task</span>
+            </button>
+
             <div class="mt-[20px]">
                <h4>What's the priority?</h4>
                <ul class="flex gap-[20px] mt-[15px]">
@@ -188,9 +207,20 @@ const onSaveTask = async () => {
             </div>
             <div class="mt-[20px] flex gap-[20px]">
                <Button class="p-[10px] w-full" @click="emit('close')">Cancel</Button>
-               <Button class="p-[10px] w-full" @click="onSaveTask">Create</Button>
+               <Button class="p-[10px] w-full" @click="onSaveTask">{{
+                  selectedTask ? 'Edit' : 'Create'
+               }}</Button>
             </div>
          </div>
       </div>
+      <Modal :open="openDeleteModal" @close="openDeleteModal = false">
+         <div class="p-[20px] h-[200px] flex flex-col justify-between gap-6">
+            <p class="font-bold mt-10">Are you sure you want to delete the task?</p>
+            <div class="flex gap-5">
+               <Button class="p-[10px] w-full" @click="openDeleteModal = false">Cancel</Button>
+               <Button class="p-[10px] w-full" @click="onSaveTask">Delete</Button>
+            </div>
+         </div>
+      </Modal>
    </Modal>
 </template>

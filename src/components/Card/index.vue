@@ -3,7 +3,7 @@ import { CardProps } from '../../types';
 
 const props = defineProps<CardProps>();
 
-const { title, date, priority } = props;
+const { title, date, priority, category } = props;
 
 const getCardColor = (priority: string) => {
    switch (priority) {
@@ -32,18 +32,21 @@ const cardColor = getCardColor(priority);
 
 <template>
    <li
-      class="cursor-pointer relative rounded-lg h-[100px] border flex justify-between w-full shadow-lg bg-transparent text-black max-w-[500px]"
+      class="cursor-pointer relative rounded-lg h-[100px] border flex justify-between w-full shadow-md bg-transparent text-black max-w-[500px]"
       :class="cardColor?.card"
    >
-      <div class="flex flex-col items-center justify-between p-[16px]">
+      <div class="flex flex-col items-start justify-between p-[16px]">
          <span class="font-bold text-[20px] text-black">{{ title }}</span>
-         <span class="text-[20px] text-black">{{ date }}</span>
+         <span class="text-[16px] text-black font-bold">Category {{ category }}</span>
       </div>
       <div
          class="w-[100px] rounded-bl-xl p-[10px] absolute right-0 top-0 flex justify-center"
          :class="cardColor?.tag"
       >
          <span class="text-[14px] text-white font-bold">{{ priority }}</span>
+      </div>
+      <div class="rounded-tl-xl p-[10px] absolute right-0 bottom-0 flex justify-center">
+         <span class="text-[20px] text-black font-medium">{{ date }}</span>
       </div>
    </li>
 </template>

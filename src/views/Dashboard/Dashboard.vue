@@ -53,6 +53,7 @@ const filteredTasks = computed(() => {
                :date="task.date"
                :title="task.title"
                :priority="task.priority"
+               :category="task.category"
                @click="openEditModal(task)"
             />
          </ul>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineProps } from 'vue';
+import { defineProps, computed } from 'vue';
 
 const props = defineProps<{ priority: string; isSelected: boolean }>();
 
@@ -16,7 +16,7 @@ const getCardColor = (priority: string) => {
    }
 };
 
-const cardColor = getCardColor(props.priority);
+const cardColor = computed(() => getCardColor(props.priority));
 </script>
 
 <template>

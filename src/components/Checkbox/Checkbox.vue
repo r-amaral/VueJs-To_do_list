@@ -16,7 +16,7 @@ const handleChange = (event: Event) => {
          class="rounded-lg p-4 border w-[20px] h-[20px] border-black shadow-lg shadow-blue-500/25 bg-transparent text-black placeholder:text-gray-500 max-w-[375px]"
          type="checkbox"
          :id="id"
-         :value="modelValue"
+         :checked="modelValue"
          @change="handleChange"
       />
       <label class="text-black font-medium" :for="id">{{ label }}</label>

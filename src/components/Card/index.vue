@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { CardProps } from '../../types';
+import { computed } from 'vue';
 
 const props = defineProps<CardProps>();
-
-const { title, date, priority, category } = props;
 
 const getCardColor = (priority: string) => {
    switch (priority) {
@@ -27,7 +26,7 @@ const getCardColor = (priority: string) => {
    }
 };
 
-const cardColor = getCardColor(priority);
+const cardColor = computed(() => getCardColor(props.priority));
 </script>
 
 <template>

@@ -1,13 +1,23 @@
 {
   "users": [
     {
-      "id": 1,
+      "id": "1",
       "fullName": "Ruan Vinicius Amaral de Oliveira",
       "email": "ruan@gmail.com",
-      "password": "Ru223344!"
+      "password": "Ru223344!",
+      "tasks": [
+        {
+          "id": "5dd0e88f-c025-482d-b66e-0dd3fc8fa374",
+          "title": "Study Today",
+          "date": "25/12/2024",
+          "priority": "High",
+          "description": "study for test",
+          "category": "Study"
+        }
+      ]
     },
     {
-      "id": 2,
+      "id": "2",
       "fullName": "John Lennon",
       "email": "john@gmail.com",
       "password": "Jo223344!"

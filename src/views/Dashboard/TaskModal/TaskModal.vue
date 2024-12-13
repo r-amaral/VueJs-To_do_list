@@ -64,7 +64,6 @@ watch(
             ...newTaskValue,
             date: formatDateIn(newTaskValue.date),
          };
-         console.log(newTaskValue);
          Object.assign(newTask, normalizeValues);
       } else {
          Object.assign(newTask, {

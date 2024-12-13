@@ -1,4 +1,4 @@
-### 1. Backend (Node.js com TypeScript)
+### Boot instructions
 
 1. **Clone the repository:**
 

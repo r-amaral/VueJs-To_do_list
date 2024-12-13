@@ -38,14 +38,14 @@ const filteredTasks = computed(() => {
 <template>
    <Header />
    <main class="w-full flex justify-center">
-      <section class="w-[70%]">
+      <section class="w-[70%] max-md:w-[90%]">
          <div class="w-full flex justify-between">
-            <h3 class="text-[32px] font-bold">My Board</h3>
+            <h3 class="text-[32px] font-bold max-md:text-[26px]">My Board</h3>
             <Filter :openModal="openModal" :openFilter="openFilter" :onOpenFilter="onOpenFilter" />
          </div>
          <ul
             v-if="filteredTasks?.length ?? 0"
-            class="flex p-[30px] flex-col gap-[20px] w-full items-center"
+            class="flex p-[30px] max-md:pl-[10px] max-md:pr-[10px] flex-col gap-[20px] w-full items-center"
          >
             <Card
                v-for="(task, index) in filteredTasks"

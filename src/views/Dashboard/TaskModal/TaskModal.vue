@@ -131,7 +131,9 @@ const onSaveTask = async () => {
 
 <template>
    <Modal :open="open" @close="emit('close')">
-      <div class="flex flex-col p-[30px] pl-[100px] pr-[100px]">
+      <div
+         class="flex flex-col p-[30px] pl-[100px] pr-[100px] max-sm:pl-[20px] max-sm:pr-[20px] max-sm:gap-[20px]"
+      >
          <h3 class="font-bold text-[32px] text-center mb-[20px]">
             {{ selectedTask ? 'Edit' : 'New Task' }}
          </h3>
@@ -158,7 +160,7 @@ const onSaveTask = async () => {
 
          <div class="mt-[20px]">
             <h4>Choose the categories</h4>
-            <div class="flex gap-[20px] mt-[10px]">
+            <div class="flex gap-[20px] mt-[10px] max-md:flex-col">
                <Button
                   v-for="(categorie, i) in CategoriesTypes"
                   :key="i"

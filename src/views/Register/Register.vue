@@ -94,7 +94,7 @@ const onRegister = async () => {
 </script>
 
 <template>
-   <main class="grid grid-cols-2 min-h-[100vh] bg-white">
+   <main class="max-md:grid-cols-1 grid grid-cols-2 min-h-[100vh] bg-white max-md:p-[40px]">
       <section class="flex justify-center items-center h-[100%]">
          <div class="flex justify-center h-[100%] items-center flex-col w-full">
             <h2 class="mb-[100px] text-7xl font-bold text-blue-800">Register</h2>
@@ -135,7 +135,7 @@ const onRegister = async () => {
                   v-model="user.confirmPassword"
                   :error="error.confirmPassword"
                />
-               <span>
+               <span class="max-md:text-center">
                   If you have a registration,
                   <router-link class="text-blue-800 font-bold" to="/">Click here</router-link></span
                >

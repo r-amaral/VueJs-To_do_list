@@ -36,12 +36,14 @@ const onLogin = async () => {
 </script>
 
 <template>
-   <main class="grid grid-cols-2 min-h-[100vh] bg-white">
+   <main class="max-md:grid-cols-1 grid grid-cols-2 min-h-[100vh] bg-white max-md:p-[40px]">
       <section class="flex justify-center items-center h-[100%]">
          <div class="flex justify-center h-[100%] items-center flex-col w-full">
             <div class="mb-[100px] flex flex-col items-center">
-               <h1 class="text-7xl font-bold text-blue-800">Welcome</h1>
-               <span class="text-black font-medium">Organize your life. Organize your mind.</span>
+               <h1 class="text-7xl font-bold text-blue-800 max-md:text-[55px]">Welcome</h1>
+               <span class="text-black font-medium max-md:text-center"
+                  >Organize your life. Organize your mind.</span
+               >
             </div>
             <form
                class="flex justify-center items-center flex-col w-full gap-5"
@@ -62,7 +64,7 @@ const onLogin = async () => {
                   v-model="user.password"
                />
 
-               <span>
+               <span class="max-md:text-center">
                   If you do not have an account,
                   <router-link class="text-blue-800 font-bold" to="/register"
                      >Click here</router-link

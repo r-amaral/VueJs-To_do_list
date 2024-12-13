@@ -31,9 +31,9 @@ const toggleCategory = (category: string, isChecked: boolean) => {
 <template>
    <div class="flex gap-[30px] relative">
       <button @click="onOpenFilter(!openFilter)" class="bottom-[0px]">
-         <img :src="Filter" alt="" />
+         <img :src="Filter" alt="filter icon" />
       </button>
-      <Button class="w-12 p-[8px]" @click="openModal()">+</Button>
+      <Button class="w-12 p-[8px] max-md:p-[0px]" @click="openModal()">+</Button>
       <div
          v-if="openFilter"
          class="flex z-20 shadow-lg shadow-blue-500/25 flex-col absolute gap-[13px] top-[50px] right-[80px] items-start p-[20px] bg-white"

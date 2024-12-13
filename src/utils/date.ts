@@ -11,10 +11,11 @@ export const validateDate = (date: string) => {
    return selectedDate >= today;
 };
 
-export const formatDate = (date: string) => {
-   const parsedDate = new Date(Date.parse(date));
-   const day = String(parsedDate.getDate()).padStart(2, '0');
-   const month = String(parsedDate.getMonth() + 1).padStart(2, '0');
-   const year = parsedDate.getFullYear();
+export const formatDateOut = (date: string) => {
+   const [year, month, day] = date.split('-');
    return `${day}/${month}/${year}`;
+};
+export const formatDateIn = (date: string) => {
+   const [day, month, year] = date.split('/');
+   return `${year}-${month}-${day}`;
 };

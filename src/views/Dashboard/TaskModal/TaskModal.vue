@@ -5,7 +5,7 @@ import { getUserById } from '../../../services/index.ts';
 import Button from '../../../components/Button/index.vue';
 import { useUserStore } from '../../../stores/UserStore.ts';
 import FieldText from '../../../components/FieldText/index.vue';
-import { formatDate, validateDate } from '../../../utils/date.ts';
+import { formatDateIn, formatDateOut, validateDate } from '../../../utils/date.ts';
 import PriorityCard from '../../../components/PriorityCard/index.vue';
 import TrashIcon from '../../../assets/trash.png';
 import { CategoriesTypes, PriorityTypes, CardProps, UserTypes } from '../../../types/index.ts';
@@ -60,7 +60,12 @@ watch(
    () => props.selectedTask,
    newTaskValue => {
       if (newTaskValue) {
-         Object.assign(newTask, newTaskValue);
+         const normalizeValues = {
+            ...newTaskValue,
+            date: formatDateIn(newTaskValue.date),
+         };
+         console.log(newTaskValue);
+         Object.assign(newTask, normalizeValues);
       } else {
          Object.assign(newTask, {
             title: '',
@@ -86,12 +91,12 @@ const getBodyReq = (asyncUser: UserTypes) => {
    return props.selectedTask
       ? (asyncUser.tasks ?? []).map(task =>
            props.selectedTask && task.id === props.selectedTask.id
-              ? { ...newTask, date: formatDate(newTask.date) }
+              ? { ...newTask, date: formatDateOut(newTask.date) }
               : task,
         )
       : [
            ...(asyncUser.tasks || []),
-           { ...newTask, id: crypto.randomUUID(), date: formatDate(newTask.date) },
+           { ...newTask, id: crypto.randomUUID(), date: formatDateOut(newTask.date) },
         ];
 };
 
